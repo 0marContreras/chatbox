@@ -111,3 +111,13 @@ export default function Home() {
     </main>
   );
 }
+
+// import React from "react"
+// import Login from "@/app/Login"
+// export default function Home() {
+//   return (
+//     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+//     <Login/>
+//    </div>
+//   );
+// }
