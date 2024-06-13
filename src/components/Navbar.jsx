@@ -10,6 +10,22 @@ export default function Navbar() {
     setState(!state);
   };
 
+async function logout(){
+    const response = await fetch('/api/signout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+  
+      if (response.status != 200) {
+        const data = await response.json();
+        setError(data.error); 
+      } else {
+        window.location.href = '/';
+      }
+  }
+
   return (
       <nav className="bg-[#142233] w-full border-b md:border-0 md:static">
           <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
@@ -45,9 +61,9 @@ export default function Navbar() {
                   </div>
               </div>
               <div className="hidden md:inline-block">
-                  <a className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">
+                  <button onClick={logout}  className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">
                       Log out
-                  </a>
+                  </button>
               </div>
           </div>
       </nav>
