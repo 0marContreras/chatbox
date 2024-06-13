@@ -1,6 +1,6 @@
-
 'use client';
 import React from 'react';
+import { signIn } from "@/auth"
 
 const LoginForm = () => {
     const handleSubmit = (e) => {
@@ -20,7 +20,10 @@ const LoginForm = () => {
                 </div>
             </div>
             <form
-                onSubmit={(e) => e.preventDefault()}
+                 action={async (formData) => {
+                    "use server"
+                    await signIn("credentials", formData)
+                  }}
                 className="mt-8 space-y-5"
             >
                 <div>
@@ -29,6 +32,7 @@ const LoginForm = () => {
                     </label>
                     <input
                         type="email"
+                        name="email"
                         required
                         className="w-full mt-2 px-3 py-2 text-gray-800 bg-white outline-none border focus:border-[#6D72F2] shadow-sm rounded-lg"
                     />
@@ -39,6 +43,7 @@ const LoginForm = () => {
                     </label>
                     <input
                         type="password"
+                        name="password"
                         required
                         className="w-full mt-2 px-3 py-2 text-gray-800 bg-white outline-none border focus:border-[#6D72F2] shadow-sm rounded-lg"
                     />
