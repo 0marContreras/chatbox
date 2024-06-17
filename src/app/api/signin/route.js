@@ -3,6 +3,11 @@ import { cookies } from 'next/headers';
 import User from '@/models/User'; 
 import bcrypt from 'bcrypt';
 import connectToDatabase from "@/lib/db";
+import { EmailTemplate } from '@/components/email-template';
+import { Resend } from 'resend';
+
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
   connectToDatabase()
@@ -14,9 +19,19 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
+    //Email del auth
+    
+      const { data, error } = await resend.emails.send({
+        from: 'Acme <onboarding@resend.dev>',
+        to: [user.email],
+        subject: 'Chatbox Auth',
+        react: EmailTemplate({ firstName: 'Omar' }),
+      });
+  
     const oneDay = 24 * 60 * 60 * 1000;
     cookies().set('loged', user.email, { expires: Date.now() + oneDay }); 
     return NextResponse.json({ signin: 'Valid credentials' }, { status: 200 });
+
 
   } catch (error) {
     console.error(error);
