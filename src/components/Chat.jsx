@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Alert from './Alert';
+import '@fortawesome/fontawesome-free/css/all.min.css'; 
+import './Button.css'
 
 const Chat = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +11,7 @@ const Chat = () => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [prompt, setprompt ] = useState('')
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -26,6 +29,26 @@ const Chat = () => {
   const closeAlert = () => {
     setShowAlert(false); 
   };
+
+  const ws = new WebSocket("ws://localhost:8000/chatbox");
+
+  ws.onmessage = function(event) {
+    const chatbox = document.getElementById('chatbox');
+    const message = document.createElement('div');
+    message.textContent = event.data;
+    chatbox.appendChild(message);
+    chatbox.scrollTop = chatbox.scrollHeight;
+  };
+
+  const makePrompt = () => {
+    const input = document.getElementById('messageInput');
+    if (prompt.length === 0){
+      return;
+    }
+    ws.send(prompt);
+    setprompt('');
+    input.value = '';
+  }
 
   return (
     <div>
@@ -81,20 +104,43 @@ const Chat = () => {
               ✖
             </button>
           </div>
-          <div style={{ flex: 1, overflowY: 'auto', marginBottom: '10px' }}>
-            <p className="font-bold">Hello, {userName}. ¿How can I help you?</p>
+          <div id='chatbox' style={{ flex: 1, overflowY: 'auto', marginBottom: '10px' }}>
+            <p className="font-bold">Hello, {userName}. How can I help you?</p>
           </div>
-          <input
-            type="text"
-            placeholder="Escribe un mensaje..."
-            style={{
-              width: '100%',
-              padding: '10px',
-              boxSizing: 'border-box',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              id='messageInput'
+              type="text"
+              value={prompt}
+              onChange={(e) => setprompt(e.target.value)}
+              placeholder="Escribe un mensaje..."
+              style={{
+                flex: 1,
+                padding: '5px',
+                boxSizing: 'border-box',
+                borderRadius: '5px',
+                border: '1px solid #ccc',
+                marginRight: '5px'
+              }}
+            />
+            <button
+              onClick={makePrompt}
+              style={{
+                background: '#B165BC',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '16px',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <i className="fas fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
       )}
 

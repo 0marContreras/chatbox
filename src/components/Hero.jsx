@@ -13,51 +13,56 @@ export default function Hero() {
   return (
     <div>
       <div className="bg-[#142233]">
-        <header>
-          <nav className="items-center pt-3 px-4 mx-auto max-w-screen-xl sm:px-8">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <a>
-                  <img src="/Logo.png" width={90} height={90} alt="logo" />
-                </a>
-                <a className="text-white font-bold text-xl ml-2">ChatBox</a>
-              </div>
-              <div className="sm:hidden">
-                <button
-                  onClick={toggleMenu}
-                  className="text-white focus:outline-none"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 6h16M4 12h16m-7 6h7"
-                    />
-                  </svg>
-                </button>
-              </div>
+        <header className="relative">
+          <nav className="items-center pt-3 px-4 mx-auto max-w-screen-xl sm:px-8 flex justify-between">
+            <div className="flex items-center">
+              <a>
+                <img src="/Logo.png" width={90} height={90} alt="logo" />
+              </a>
+              <a className="text-white font-bold text-xl ml-2">ChatBox</a>
             </div>
-            <ul
-              className={`py-4 sm:py-0 flex-1 items-center flex space-x-3 sm:space-x-6 sm:justify-end ${
-                menuOpen ? "block" : "hidden"
-              } sm:flex`}
-            >
-              <li>
-                <Link href="/signin" legacyBehavior>
-                  <a className="px-5 py-3 text-white text-bold duration-150 bg-[#B165BC] rounded-full hover:bg-indigo-500 active:bg-indigo-700 flex items-center">
-                    Log In
-                  </a>
-                </Link>
-              </li>
-            </ul>
+            <div className="hidden sm:block absolute top-0 right-0 p-4">
+              <Link href="/signin" legacyBehavior>
+                <a className="px-5 py-3 text-white text-bold duration-150 bg-[#B165BC] rounded-full hover:bg-indigo-500 active:bg-indigo-700 flex items-center">
+                  Log In
+                </a>
+              </Link>
+            </div>
+            <div className="sm:hidden">
+              <button
+                onClick={toggleMenu}
+                className="text-white focus:outline-none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </button>
+            </div>
           </nav>
+          <ul
+            className={`py-4 sm:py-0 flex-1 items-center flex space-x-3 sm:space-x-6 sm:justify-end ${
+              menuOpen ? "block" : "hidden"
+            } sm:flex`}
+          >
+            <li className="sm:hidden">
+              <Link href="/signin" legacyBehavior>
+                <a className="px-5 py-3 text-white text-bold duration-150 bg-[#B165BC] rounded-full hover:bg-indigo-500 active:bg-indigo-700 flex items-center">
+                  Log In
+                </a>
+              </Link>
+            </li>
+          </ul>
         </header>
         <section className="mt-10 mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
           <div className="space-y-4 flex-1 text-center lg:text-left">
