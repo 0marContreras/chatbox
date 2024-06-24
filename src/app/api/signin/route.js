@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import connectToDatabase from "@/lib/db";
 import { EmailTemplate } from '@/components/email-template';
 import { Resend } from 'resend';
-
+import { generateToken } from '@/lib/hash'
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -19,14 +19,20 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
+    //Generamos el token 2fa
+    let token = await generateToken();
+    await User.updateOne({email: user.email}, {$set: {twoFactorSecret: token}});
+
     //Email del auth
-    
       const { data, error } = await resend.emails.send({
         from: 'Acme <onboarding@resend.dev>',
         to: [user.email],
         subject: 'Chatbox Auth',
-        react: EmailTemplate({ firstName: 'Omar' }),
+        react: EmailTemplate({ token: token }),
       });
+    console.log(data, error)
+
+    
   
     const oneDay = 24 * 60 * 60 * 1000;
     cookies().set('loged', user.email, { expires: Date.now() + oneDay }); 
