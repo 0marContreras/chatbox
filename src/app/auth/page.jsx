@@ -1,11 +1,29 @@
 "use client";
+import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
-
 
 
 export default () => {
   const [tokens, setTokens] = useState(['', '', '', '']);
+  const [isValid, setIsValid] = useState(null);
   const inputsRef = useRef([]);
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/auth');
+        if (response.status === 200) {
+          setIsValid(true);
+        } else {
+          setIsValid(false);
+        }
+      } catch (error) {
+        setIsValid(false);
+      }
+    };
+
+    fetchAuthStatus();
+  }, []);
 
   const handleChange = (index, value) => {
     if (value.length > 1) return;
@@ -15,17 +33,40 @@ export default () => {
     setTokens(newTokens);
 
     if (value && index < 3) {
-      // Move to the next input if current input is filled
       inputsRef.current[index + 1].focus();
     }
   };
 
   const handleKeyDown = (index, event) => {
     if (event.key === 'Backspace' && tokens[index] === '' && index > 0) {
-      // Move to the previous input if current input is empty and backspace is pressed
       inputsRef.current[index - 1].focus();
     }
   };
+
+  
+  if (isValid === null) {
+    return <main className="bg-[#142233] w-full h-screen flex flex-col items-center justify-center px-4"/>;
+  }
+  
+
+  if (!isValid) {
+    return (
+    <main className="bg-[#142233] w-full h-screen flex flex-col items-center justify-center px-4">
+      <div className="max-w-sm w-full text-gray-600">
+        <div className="text-center">
+        <img src="/Logo.png" width={120} className="mx-auto " />
+          <h1 className="text-[#cf0041] text-2xl font-bold sm:text-3xl">Invalid verification</h1>
+          <p className="text-white pb-5">Please try login again</p>
+          <Link href="/signin" legacyBehavior>
+                <a className="px-5 py-3 text-white text-bold duration-150 bg-[#B165BC] rounded-xl hover:bg-indigo-500 active:bg-indigo-700">
+                  Log In
+                </a>
+              </Link>
+        </div>
+      </div>
+    </main>      
+    );
+  }
 
   return (
     <main className="bg-[#142233] w-full h-screen flex flex-col items-center justify-center px-4">
@@ -34,7 +75,7 @@ export default () => {
           <img src="/Logo.png" width={120} className="mx-auto " />
           <div className="mt-5 space-y-2">
             <h3 className="text-[#6D72F2] text-2xl font-bold sm:text-3xl">Enter your Token</h3>
-            <p className="text-white">You received a Token in your email to verify your email</p>
+            <p className="text-white">You received a Token in your email to verify your session</p>
           </div>
         </div>
         <div className="flex justify-center items-center mb-4">

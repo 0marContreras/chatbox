@@ -22,7 +22,7 @@ const LoginForm = () => {
       const data = await response.json();
       setError(data.error); 
     } else {
-      window.location.href = '/dashboard';  // TODO: Redirect to the 2fa 
+      window.location.href = '/auth';  // TODO: Redirect to the 2fa 
     }
   };
 
