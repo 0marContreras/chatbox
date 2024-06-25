@@ -1,11 +1,44 @@
+"use client"
 import BarChart from '@/components/BarChart';
 import Navbar from '@/components/Navbar';
 import PieChart from '@/components/PieChart';
 import TablePrice from '@/components/TablePrice';
 import Textbox from '@/components/Textbox';
 import React from 'react'; 
+import { useState, useEffect } from 'react';
+import Invalid from '@/components/Invalid'
 
 export default function Dashboard() {
+  const [isValid, setIsValid] = useState(null);
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/signin');
+        if (response.status === 200) {
+          setIsValid(true);
+        } else {
+          setIsValid(false);
+        }
+      } catch (error) {
+        setIsValid(false);
+      }
+    };
+
+    fetchAuthStatus();
+  }, []);
+
+  if (isValid === null) {
+    return <main className="bg-[#142233] w-full h-screen flex flex-col items-center justify-center px-4"/>;
+  }
+  
+
+  if (!isValid) {
+    return (
+      <Invalid/>  
+    );
+  }
+
   return (
     <div>
       <Navbar />

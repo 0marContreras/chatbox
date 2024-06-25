@@ -44,3 +44,18 @@ export async function POST(req) {
     return NextResponse.json({ error: 'An error occurred' }, { status: 500 });
   }
 }
+
+
+
+
+export async function GET(){
+  const cookieStore = cookies()
+  const isLoged = cookieStore.has('loged')
+  const isAuth = cookieStore.has('authenticated')
+  
+  
+  if(isLoged == true && isAuth == true){
+      return NextResponse.json({ signin: 'Valid Authentication' }, { status: 200 });
+  }else{return NextResponse.json({ error: 'forbidden' }, { status: 403 });}
+}
+

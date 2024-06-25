@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import User from '@/models/User'; 
 
 export async function GET(){
     const cookieStore = cookies()
@@ -11,6 +12,8 @@ export async function GET(){
     }else{return NextResponse.json({ error: 'forbidden' }, { status: 403 });}
 }
 
+
+
 export async function POST(req){
     const { token } = await req.json();
     const cookieStore = cookies()
@@ -19,6 +22,8 @@ export async function POST(req){
 
     if (user.twoFactorSecret == token){
         await User.updateOne({email: user.email}, {$set: {twoFactorSecret: ""}});
+        const oneDay = 24 * 60 * 60 * 1000;
+        cookies().set('authenticated', user.email, { expires: Date.now() + oneDay }); 
         return NextResponse.json({ signin: 'Authenticated' }, { status: 200 });
     }else{
         return NextResponse.json({ error: 'forbidden' }, { status: 403 });
