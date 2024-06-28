@@ -10,8 +10,6 @@ export default () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Token ingresado:", token);  
-
     const response = await fetch('/api/auth', {
       method: 'POST',
       headers: {
