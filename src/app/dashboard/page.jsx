@@ -3,6 +3,7 @@ import BarChart from '@/components/BarChart';
 import Navbar from '@/components/Navbar';
 import PieChart from '@/components/PieChart';
 import TablePrice from '@/components/TablePrice';
+import TableDate from '@/components/TableDate';
 import Textbox from '@/components/Textbox';
 import React from 'react'; 
 import { useState, useEffect } from 'react';
@@ -48,16 +49,26 @@ export default function Dashboard() {
           <TablePrice />
           <div className="flex justify-center mt-8">
             <a className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">
-              Save 2
+              Save 
             </a>
           </div>
         </div>
-        <div className='h-[350px] w-full lg:w-[400px] mb-8 lg:mb-0 px-0 lg:px-8 mx-auto'>
+        <div className='mb-8 lg:mb-0 lg:mr-8 w-full lg:w-auto'>
+          <TableDate/>
+          <div className="flex justify-center mt-8">
+            <a className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">
+              Save 
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className='flex justify-around'>
+      <div className='h-[350px] pl-12 w-full lg:w-[400px] ' >
             <BarChart />
-          </div>
-          <div className='lg:w-[400px] lg:w-auto px-0 lg:px-8 mx-auto'>
+      </div>
+      <div className='lg:w-[400px]'>
             <PieChart />
-          </div>
+      </div>
       </div>
       <div className='container mx-auto items-center px-4 lg:px-0'>
           <h2 className='font-bold text-xl text-gray-800'>Information Context for the Bot</h2>
