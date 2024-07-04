@@ -107,9 +107,6 @@ export default () => {
             Enter
           </button>
         </form>
-        <div className="text-center mt-4">
-          <a className="text-white hover:text-indigo-600">Didn't receive your Token?</a>
-        </div>
       </div>
     </main>
   );
