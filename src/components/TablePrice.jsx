@@ -3,31 +3,35 @@ import React, { useEffect, useState } from 'react';
 export default () => {
     const [tableItems, setTableItems] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('/api/items', {
-                    method: 'GET',
-                });
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/api/items', {
+                method: 'GET',
+            });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setTableItems(data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        };
 
+            const data = await response.json();
+            setTableItems(data);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, []);
 
     const deleteItem = async (id) => {
         try {
-            const response = await fetch(`/api/items/${id}`, {
+            const response = await fetch(`/api/items/`, {
                 method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ "_id": id }),
             });
 
             if (!response.ok) {
@@ -35,7 +39,7 @@ export default () => {
             }
 
             
-            setTableItems((prevItems) => prevItems.filter(item => item.id !== id));
+            fetchData();
         } catch (error) {
             console.error("Error deleting item: ", error);
         }
@@ -87,13 +91,13 @@ export default () => {
                                             Edit
                                         </a>
                                         <button
-                                            onClick={() => deleteItem(item.id)}
+                                            onClick={() => deleteItem(item._id)}
                                             className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
                                         >
                                             Delete
                                         </button>
                                     </td>
-                                </tr>
+                                </tr>   
                             ))
                         }
                     </tbody>
