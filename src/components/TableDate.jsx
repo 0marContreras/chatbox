@@ -1,14 +1,30 @@
+import React, { useEffect, useState } from 'react';
+
 export default () => {
+    const [tableDate, setTableDate] = useState([]);
 
-    const tableDate = [
-        {
-            nameEvent: "Beggining of quarter",
-            date: "oct-Jan 2024",
-            hour: "7:00 AM",
-            place: "UTCH BIS",
-        },
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/events', {
+                    method: 'GET',
 
-    ]
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setTableDate(data);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -45,10 +61,10 @@ export default () => {
                         {
                             tableDate.map((item, idx) => (
                                 <tr key={idx}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.nameEvent}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.hour}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.place}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Nombre}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Fecha_limite}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Hora}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Lugar}</td>
                                     <td className="text-right px-6 whitespace-nowrap">
                                         <a href="" className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
                                             Edit

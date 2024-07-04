@@ -1,13 +1,45 @@
+import React, { useEffect, useState } from 'react';
+
 export default () => {
+    const [tableItems, setTableItems] = useState([]);
 
-    const tableItems = [
-        {
-            item: "constancia",
-            date: "oct-Jan 2024",
-            price: "$1000 pesos",
-        },
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/items', {
+                    method: 'GET',
+                });
 
-    ]
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setTableItems(data);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const deleteItem = async (id) => {
+        try {
+            const response = await fetch(`/api/items/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            
+            setTableItems((prevItems) => prevItems.filter(item => item.id !== id));
+        } catch (error) {
+            console.error("Error deleting item: ", error);
+        }
+    };
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -33,25 +65,31 @@ export default () => {
                 <table className="w-full table-auto text-sm text-left">
                     <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6">item</th>
-                            <th className="py-3 px-6">date</th>
-                            <th className="py-3 px-6">price</th>
+                            <th className="py-3 px-6">Name</th>
+                            <th className="py-3 px-6">Cost</th>
+                            <th className="py-3 px-6">Date Límite</th>
+                            <th className="py-3 px-6">Delivery date</th>
+                            <th className="py-3 px-6">Shipping method</th>
                             <th className="py-3 px-6"></th>
-
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
                             tableItems.map((item, idx) => (
                                 <tr key={idx}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.item}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.price}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Nombre}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Costo}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Fecha_limite}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Tiempo_entrega}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Medio_entrega}</td>
                                     <td className="text-right px-6 whitespace-nowrap">
                                         <a href="" className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
                                             Edit
                                         </a>
-                                        <button href="" className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                                        <button
+                                            onClick={() => deleteItem(item.id)}
+                                            className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                        >
                                             Delete
                                         </button>
                                     </td>
@@ -62,5 +100,5 @@ export default () => {
                 </table>
             </div>
         </div>
-    )
+    );
 }
