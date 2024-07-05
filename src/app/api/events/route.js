@@ -18,3 +18,10 @@ export async function DELETE(req){
     console.log(setting)
     return NextResponse.json(setting, { status: 200 });
 }
+
+export async function POST(req){
+    connectToDatabase()
+    const {Nombre, Fecha_limite, Hora, Lugar} = await req.json();
+    const newitem = new settings({Nombre: Nombre, Fecha_limite: Fecha_limite, Hora: Hora, Lugar: Lugar});
+    await newitem.save()
+}
