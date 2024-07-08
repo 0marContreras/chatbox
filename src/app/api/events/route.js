@@ -22,7 +22,7 @@ export async function DELETE(req){
 export async function POST(req){
     connectToDatabase()
     const {Nombre, Fecha_limite, Hora, Lugar} = await req.json();
-    const newitem = new settings({Nombre: Nombre, Fecha_limite: Fecha_limite, Hora: Hora, Lugar: Lugar});
+    const newitem = new settings({Nombre: Nombre, Fecha_limite: Fecha_limite, Hora: Hora, Lugar: Lugar, Item: false});
     await newitem.save();
     return NextResponse.json(newitem, { status: 200 });
 }
