@@ -25,3 +25,9 @@ export async function POST(req){
     const newitem = new settings({Nombre: Nombre, Costo: Costo, Fecha_limite: Fecha_limite, Tiempo_entrega: Tiempo_entrega, Medio_entrega: Medio_entrega});
     await newitem.save()
 }
+
+export async function UPDATE(req){
+    connectToDatabase()
+    const {_id ,Nombre, Costo, Fecha_limite, Tiempo_entrega, Medio_entrega} = await req.json();
+    await settings.findByIdAndUpdate()
+}
