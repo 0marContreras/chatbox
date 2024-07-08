@@ -22,7 +22,7 @@ export async function DELETE(req){
 export async function POST(req){
     connectToDatabase()
     const {Nombre, Costo, Fecha_limite, Tiempo_entrega, Medio_entrega} = await req.json();
-    const newitem = new settings({Nombre: Nombre, Costo: Costo, Fecha_limite: Fecha_limite, Tiempo_entrega: Tiempo_entrega, Medio_entrega: Medio_entrega, Item: true});
+    const newitem = new settings({Nombre: Nombre, Costo: Costo, Fecha_limite: Fecha_limite, Tiempo_entrega: Tiempo_entrega, Medio_entrega: Medio_entrega, Item: true, Contador: 0, Contador_fecha: 0});
     await newitem.save()
     return NextResponse.json(newitem, { status: 200 });
 }
