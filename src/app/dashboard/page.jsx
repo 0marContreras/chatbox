@@ -48,17 +48,11 @@ export default function Dashboard() {
         <div className='mb-8 lg:mb-0 lg:mr-8 w-full lg:w-auto'>
           <TablePrice />
           <div className="flex justify-center mt-8">
-            <a className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">
-              Save 
-            </a>
           </div>
         </div>
         <div className='mb-8 lg:mb-0 lg:mr-8 w-full lg:w-auto'>
           <TableDate/>
           <div className="flex justify-center mt-8">
-            <a className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">
-              Save 
-            </a>
           </div>
         </div>
       </div>
