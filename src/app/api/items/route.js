@@ -24,10 +24,12 @@ export async function POST(req){
     const {Nombre, Costo, Fecha_limite, Tiempo_entrega, Medio_entrega} = await req.json();
     const newitem = new settings({Nombre: Nombre, Costo: Costo, Fecha_limite: Fecha_limite, Tiempo_entrega: Tiempo_entrega, Medio_entrega: Medio_entrega});
     await newitem.save()
+    return NextResponse.json(newitem, { status: 200 });
 }
 
 export async function UPDATE(req){
     connectToDatabase()
     const {_id ,Nombre, Costo, Fecha_limite, Tiempo_entrega, Medio_entrega} = await req.json();
-    await settings.findByIdAndUpdate()
+    const updated = await settings.findByIdAndUpdate(_id, {"Nombre": Nombre, "Costo": Costo, "Fecha_limite": Fecha_limite, "Tiempo_entrega": Tiempo_entrega, "Medio_entrega": Medio_entrega,"Item": true})
+    return NextResponse.json(updated, { status: 200 });
 }
