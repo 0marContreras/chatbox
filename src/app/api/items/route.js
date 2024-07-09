@@ -27,7 +27,7 @@ export async function POST(req){
     return NextResponse.json(newitem, { status: 200 });
 }
 
-export async function UPDATE(req){
+export async function PUT(req){
     connectToDatabase()
     const {_id ,Nombre, Costo, Fecha_limite, Tiempo_entrega, Medio_entrega} = await req.json();
     const updated = await settings.findByIdAndUpdate(_id, {"Nombre": Nombre, "Costo": Costo, "Fecha_limite": Fecha_limite, "Tiempo_entrega": Tiempo_entrega, "Medio_entrega": Medio_entrega,"Item": true})
