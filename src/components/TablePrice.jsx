@@ -2,6 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 export default () => {
     const [tableItems, setTableItems] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [newItem, setNewItem] = useState({
+        Nombre: '',
+        Costo: '',
+        Fecha_limite: '',
+        Tiempo_entrega: '',
+        Medio_entrega: ''
+    });
+    const [selectedItem, setSelectedItem] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -38,11 +47,56 @@ export default () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            
             fetchData();
         } catch (error) {
             console.error("Error deleting item: ", error);
         }
+    };
+
+    const saveItem = async () => {
+        const url = selectedItem ? `/api/items/${selectedItem._id}` : '/api/items';
+        const method = selectedItem ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newItem),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            setIsModalOpen(false);
+            setNewItem({
+                "Nombre": '',
+                "Costo": '',
+                "Fecha_limite": '',
+                "Tiempo_entrega": '',
+                "Medio_entrega": ''
+            });
+            setSelectedItem(null);
+            fetchData();
+        } catch (error) {
+            console.error("Error saving item: ", error);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setNewItem(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleEditClick = (item) => {
+        setSelectedItem(item);
+        setNewItem(item);
+        setIsModalOpen(true);
     };
 
     return (
@@ -57,12 +111,22 @@ export default () => {
                     </p>
                 </div>
                 <div className="mt-3 md:mt-0">
-                    <a
-                        href=""
+                    <button
+                        onClick={() => {
+                            setSelectedItem(null);
+                            setNewItem({
+                                Nombre: '',
+                                Costo: '',
+                                Fecha_limite: '',
+                                Tiempo_entrega: '',
+                                Medio_entrega: ''
+                            });
+                            setIsModalOpen(true);
+                        }}
                         className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
                     >
                         Add Item
-                    </a>
+                    </button>
                 </div>
             </div>
             <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
@@ -87,9 +151,12 @@ export default () => {
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Tiempo_entrega}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Medio_entrega}</td>
                                     <td className="text-right px-6 whitespace-nowrap">
-                                        <a href="" className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
+                                        <button
+                                            onClick={() => handleEditClick(item)}
+                                            className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                        >
                                             Edit
-                                        </a>
+                                        </button>
                                         <button
                                             onClick={() => deleteItem(item._id)}
                                             className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
@@ -97,12 +164,102 @@ export default () => {
                                             Delete
                                         </button>
                                     </td>
-                                </tr>   
+                                </tr>
                             ))
                         }
                     </tbody>
                 </table>
             </div>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+                    <div className="bg-white p-8 max-w-md w-full rounded-lg shadow-lg">
+                        <h2 className="text-xl font-bold mb-4">{selectedItem ? 'Edit Item' : 'Add New Item'}</h2>
+                        <form onSubmit={(e) => { e.preventDefault(); saveItem(); }}>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Nombre
+                                </label>
+                                <input
+                                    name="Nombre"
+                                    type="text"
+                                    value={newItem.Nombre}
+                                    onChange={handleChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Costo
+                                </label>
+                                <input
+                                    name="Costo"
+                                    type="text"
+                                    value={newItem.Costo}
+                                    onChange={handleChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Fecha Límite
+                                </label>
+                                <input
+                                    name="Fecha_limite"
+                                    type="date"
+                                    value={newItem.Fecha_limite}
+                                    onChange={handleChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Tiempo de Entrega
+                                </label>
+                                <input
+                                    name="Tiempo_entrega"
+                                    type="text"
+                                    value={newItem.Tiempo_entrega}
+                                    onChange={handleChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Medio de Entrega
+                                </label>
+                                <input
+                                    name="Medio_entrega"
+                                    type="text"
+                                    value={newItem.Medio_entrega}
+                                    onChange={handleChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
-}
+};
