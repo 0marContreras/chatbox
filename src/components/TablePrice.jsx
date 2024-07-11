@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from './Modal';
 
-const MainComponent = () => {
+const TablePrice = () => {
     const [tableItems, setTableItems] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -188,4 +188,4 @@ const MainComponent = () => {
     );
 };
 
-export default MainComponent;
+export default TablePrice;

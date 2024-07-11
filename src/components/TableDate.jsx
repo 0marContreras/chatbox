@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import EventModal from './EventModal'; // Asegúrate de que la ruta sea correcta
 
-export default () => {
+const DateTable = () => {
     const [tableDate, setTableDate] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newEvent, setNewEvent] = useState({
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentItem, setCurrentItem] = useState({
+        _id: '',
         Nombre: '',
         Fecha_limite: '',
         Hora: '',
         Lugar: ''
     });
-    const [selectedEvent, setSelectedEvent] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -53,16 +55,15 @@ export default () => {
     };
 
     const saveEvent = async () => {
-        const url = selectedEvent ? `/api/events/${selectedEvent._id}` : '/api/events';
-        const method = selectedEvent ? 'PUT' : 'POST';
+        const method = isEditing ? 'PUT' : 'POST';
 
         try {
-            const response = await fetch(url, {
+            const response = await fetch('/api/events', {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newEvent),
+                body: JSON.stringify(currentItem),
             });
 
             if (!response.ok) {
@@ -70,13 +71,13 @@ export default () => {
             }
 
             setIsModalOpen(false);
-            setNewEvent({
+            setCurrentItem({
+                _id: '',
                 Nombre: '',
                 Fecha_limite: '',
                 Hora: '',
                 Lugar: ''
             });
-            setSelectedEvent(null);
             fetchData();
         } catch (error) {
             console.error("Error saving event: ", error);
@@ -85,20 +86,27 @@ export default () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setNewEvent(prevState => ({
+        setCurrentItem(prevState => ({
             ...prevState,
             [name]: value
         }));
     };
 
-    const handleEditClick = (event) => {
-        setSelectedEvent(event);
-        setNewEvent({
-            Nombre: event.Nombre,
-            Fecha_limite: event.Fecha_limite,
-            Hora: event.Hora,
-            Lugar: event.Lugar
+    const handleEditClick = (item) => {
+        setCurrentItem(item);
+        setIsEditing(true);
+        setIsModalOpen(true);
+    };
+
+    const handleAddClick = () => {
+        setCurrentItem({
+            _id: '',
+            Nombre: '',
+            Fecha_limite: '',
+            Hora: '',
+            Lugar: ''
         });
+        setIsEditing(false);
         setIsModalOpen(true);
     };
 
@@ -115,16 +123,7 @@ export default () => {
                 </div>
                 <div className="mt-3 md:mt-0">
                     <button
-                        onClick={() => {
-                            setSelectedEvent(null);
-                            setNewEvent({
-                                Nombre: '',
-                                Fecha_limite: '',
-                                Hora: '',
-                                Lugar: ''
-                            });
-                            setIsModalOpen(true);
-                        }}
+                        onClick={handleAddClick}
                         className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
                     >
                         Add Event
@@ -172,81 +171,16 @@ export default () => {
             </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-                    <div className="bg-white p-8 max-w-md w-full rounded-lg shadow-lg">
-                        <h2 className="text-xl font-bold mb-4">{selectedEvent ? 'Edit Event' : 'Add New Event'}</h2>
-                        <form onSubmit={(e) => { e.preventDefault(); saveEvent(); }}>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Event Name
-                                </label>
-                                <input
-                                    name="Nombre"
-                                    type="text"
-                                    value={newEvent.Nombre}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Date
-                                </label>
-                                <input
-                                    name="Fecha_limite"
-                                    type="date"
-                                    value={newEvent.Fecha_limite}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Hour
-                                </label>
-                                <input
-                                    name="Hora"
-                                    type="time"
-                                    value={newEvent.Hora}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Place
-                                </label>
-                                <input
-                                    name="Lugar"
-                                    type="text"
-                                    value={newEvent.Lugar}
-                                    onChange={handleChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
-                                />
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                >
-                                    Save
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <EventModal
+                    isEditing={isEditing}
+                    currentItem={currentItem}
+                    handleChange={handleChange}
+                    saveEvent={saveEvent}
+                    setIsModalOpen={setIsModalOpen}
+                />
             )}
         </div>
     );
 };
+
+export default DateTable;
