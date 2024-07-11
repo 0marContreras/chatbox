@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Alert from './Alert';
-import '@fortawesome/fontawesome-free/css/all.min.css'; 
-import './Button.css'
+import Review from './Review';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import './Button.css';
 
 const Chat = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,28 +12,30 @@ const Chat = () => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-  const [prompt, setprompt ] = useState('')
+  const [prompt, setPrompt] = useState('');
+  const [showReview, setShowReview] = useState(false);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
+    setShowReview(false); 
   };
 
   const handleUserSubmit = () => {
     if (userName && userEmail) {
       setShowUserModal(false);
-      setShowAlert(false); 
+      setShowAlert(false);
     } else {
-      setShowAlert(true); 
+      setShowAlert(true);
     }
   };
 
   const closeAlert = () => {
-    setShowAlert(false); 
+    setShowAlert(false);
   };
 
   const ws = new WebSocket("ws://localhost:8000/chatbox");
 
-  ws.onmessage = function(event) {
+  ws.onmessage = function (event) {
     const chatbox = document.getElementById('chatbox');
     const message = document.createElement('div');
     message.textContent = event.data;
@@ -42,13 +45,17 @@ const Chat = () => {
 
   const makePrompt = () => {
     const input = document.getElementById('messageInput');
-    if (prompt.length === 0){
+    if (prompt.length === 0) {
       return;
     }
     ws.send(prompt);
-    setprompt('');
+    setPrompt('');
     input.value = '';
-  }
+  };
+
+  const endChat = () => {
+    setShowReview(true); 
+  };
 
   return (
     <div>
@@ -69,7 +76,7 @@ const Chat = () => {
         Do you need help?
       </div>
 
-      {isOpen && !showUserModal && (
+      {isOpen && !showUserModal && !showReview && (
         <div
           style={{
             position: 'fixed',
@@ -112,7 +119,7 @@ const Chat = () => {
               id='messageInput'
               type="text"
               value={prompt}
-              onChange={(e) => setprompt(e.target.value)}
+              onChange={(e) => setPrompt(e.target.value)}
               placeholder="Escribe un mensaje..."
               style={{
                 flex: 1,
@@ -141,8 +148,24 @@ const Chat = () => {
               <i className="fas fa-paper-plane"></i>
             </button>
           </div>
+          <button
+            onClick={endChat}
+            style={{
+              marginTop: '10px',
+              padding: '10px',
+              backgroundColor: '#B165BC',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            Terminar Chat
+          </button>
         </div>
       )}
+
+      {isOpen && showReview && <Review onClose={toggleChat} />}
 
       {isOpen && showUserModal && (
         <div
@@ -181,7 +204,7 @@ const Chat = () => {
           </div>
           <div style={{ flex: 1, overflowY: 'auto', marginBottom: '10px' }}>
             <p className="font-bold">Please enter your details to start chatting:</p>
-            {showAlert && <Alert onClose={closeAlert} />} {/* Show alert if there is an error */}
+            {showAlert && <Alert onClose={closeAlert} />} 
             <input
               type="text"
               placeholder="Name"
