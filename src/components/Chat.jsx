@@ -12,6 +12,7 @@ const Chat = () => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const [prompt, setPrompt] = useState('');
   const [showReview, setShowReview] = useState(false);
 
@@ -20,13 +21,24 @@ const Chat = () => {
     setShowReview(false); 
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleUserSubmit = () => {
-    if (userName && userEmail) {
-      setShowUserModal(false);
-      setShowAlert(false);
-    } else {
+    if (!userName) {
+      setAlertMessage('Please enter your name.');
       setShowAlert(true);
+      return;
     }
+    if (!userEmail || !validateEmail(userEmail)) {
+      setAlertMessage('Please enter a valid email address.');
+      setShowAlert(true);
+      return;
+    }
+    setShowUserModal(false);
+    setShowAlert(false);
   };
 
   const closeAlert = () => {
@@ -100,7 +112,7 @@ const Chat = () => {
             }}
           >
             <button
-              onClick={toggleChat}
+              onClick={endChat}
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -148,24 +160,10 @@ const Chat = () => {
               <i className="fas fa-paper-plane"></i>
             </button>
           </div>
-          <button
-            onClick={endChat}
-            style={{
-              marginTop: '10px',
-              padding: '10px',
-              backgroundColor: '#B165BC',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-            }}
-          >
-            Terminar Chat
-          </button>
         </div>
       )}
 
-      {isOpen && showReview && <Review onClose={toggleChat} />}
+      {isOpen && showReview && <Review onClose={toggleChat} userName={userName} userEmail={userEmail} />}
 
       {isOpen && showUserModal && (
         <div
@@ -204,7 +202,7 @@ const Chat = () => {
           </div>
           <div style={{ flex: 1, overflowY: 'auto', marginBottom: '10px' }}>
             <p className="font-bold">Please enter your details to start chatting:</p>
-            {showAlert && <Alert onClose={closeAlert} />} 
+            {showAlert && <Alert onClose={closeAlert} message={alertMessage} />}
             <input
               type="text"
               placeholder="Name"
