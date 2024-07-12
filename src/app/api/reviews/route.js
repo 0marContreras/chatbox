@@ -1,19 +1,37 @@
-"use server"
-import Review from "@/models/review.model"
+"use server";
+import Review from "@/models/review.model";
 import connectToDatabase from "@/lib/db";
 import { NextResponse } from "next/server";
 
+export async function GET() {
+    await connectToDatabase();
 
-export async function GET(){
-    try{
-        const reviews = await reviews.find();
-        return NextResponse.json(reviews, { status: 200 });
-    }catch (e){
+    try {
+        const reviews = await Review.find();
+        const scoreCounts = await Review.aggregate([
+            {
+                $group: {
+                    _id: "$score",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        // Format the score counts into a more readable structure
+        const formattedScoreCounts = {};
+        scoreCounts.forEach(({ _id, count }) => {
+            formattedScoreCounts[_id] = count;
+        });
+
+        // Return the reviews and the score counts
+        return NextResponse.json({
+            reviews,
+            scoreCounts: formattedScoreCounts
+        }, { status: 200 });
+    } catch (e) {
         console.log(e);
-        return NextResponse.json({ error: 'An error occurred' }, { status: 500 });
+        return NextResponse.json({ error: 'Fallo bien sexy' }, { status: 500 });
     }
-    
-
 }
 
 export async function POST(req) {
@@ -26,6 +44,6 @@ export async function POST(req) {
         return NextResponse.json(newReview, { status: 200 });
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ error: 'An error occurred' }, { status: 500 });
+        return NextResponse.json({ error: 'Fallo bien sexy' }, { status: 500 });
     }
 }
