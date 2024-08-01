@@ -8,6 +8,7 @@ import Textbox from '@/components/Textbox';
 import React from 'react'; 
 import { useState, useEffect } from 'react';
 import Invalid from '@/components/Invalid'
+import BackupButton from '../../components/BackupButton';
 
 export default function Dashboard() {
   const [isValid, setIsValid] = useState(null);
@@ -43,6 +44,8 @@ export default function Dashboard() {
   return (
     <div>
       <Navbar />
+
+      <BackupButton/>
       
       <div className='flex flex-col lg:flex-row flex-wrap justify-center items-center pb-12 pt-24 px-4 lg:px-0'>  
         <div className='mb-8 lg:mb-0 lg:mr-8 w-full lg:w-auto'>
