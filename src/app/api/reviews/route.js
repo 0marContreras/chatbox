@@ -17,13 +17,13 @@ export async function GET() {
             }
         ]);
 
-        // Format the score counts into a more readable structure
+        
         const formattedScoreCounts = {};
         scoreCounts.forEach(({ _id, count }) => {
             formattedScoreCounts[_id] = count;
         });
 
-        // Return the reviews and the score counts
+       
         return NextResponse.json({
             reviews,
             scoreCounts: formattedScoreCounts
