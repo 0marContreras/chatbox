@@ -1,30 +1,62 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
+import InvalidRecovery from '@/components/InvalidRecovery';
+import IsDone from '@/components/IsDone';
 
-const LoginForm = () => {
+export default function PasswordReset() {
+  const [isValid, setIsValid] = useState(null);
+  const [isDone, setIsDone] = useState(false); // Initialize with false
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const email = formData.get('email');
     const password = formData.get('password');
 
-    const response = await fetch('/api/signin', {
-      method: 'POST',
+    const response = await fetch('/api/recovery', {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ password }),
     });
 
-    if (response.status != 200) {
+    if (response.status !== 200) {
       const data = await response.json();
-      setError(data.error); 
+      setError("Invalid password!");
     } else {
-      window.location.href = '/auth';
+      setIsDone(true);
     }
   };
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/recovery');
+        if (response.status === 200) {
+          setIsValid(true);
+        } else {
+          setIsValid(false);
+        }
+      } catch (error) {
+        setIsValid(false);
+      }
+    };
+
+    fetchAuthStatus();
+  }, []);
+
+  if (isValid === null) {
+    return <main className="bg-[#142233] w-full h-screen flex flex-col items-center justify-center px-4" />;
+  }
+
+  if (!isValid) {
+    return <InvalidRecovery />;
+  }
+
+  if (isDone) {
+    return <IsDone />;
+  }
 
   return (
     <main className="bg-[#142233] w-full h-screen flex flex-col items-center justify-center px-4">
@@ -33,22 +65,13 @@ const LoginForm = () => {
           <img src="/Logo.png" width={150} className="m-auto" />
           <h1 className='text-2xl font-bold text-[#6D72F2]'>ChatBox</h1>
           <div className="mt-4">
-            <h3 className="text-white text-2xl font-bold sm:text-3xl">Log in to your account</h3>
-            <p className="text-sm pt-4">Your credentials are provided by the university, if you do not have yet, communicate with the institution</p>
+            <h3 className="text-white text-2xl font-bold sm:text-3xl">Create new password</h3>
+            <p className="text-sm pt-4">Use a combination of uppercase, lowercase and symbols</p>
           </div>
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div>
-            <label className="font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              required
-              className="w-full mt-2 px-3 py-2 text-gray-800 bg-white outline-none border focus:border-[#6D72F2] shadow-sm rounded-lg"
-            />
-          </div>
-          <div>
-            <label className="font-medium">Password</label>
+            <label className="font-medium">New password</label>
             <input
               type="password"
               name="password"
@@ -61,15 +84,10 @@ const LoginForm = () => {
             type="submit"
             className="w-full px-4 py-2 text-white font-medium bg-[#B165BC] hover:bg-[#6D72F2] active:bg-[#B165BC] rounded-lg duration-150"
           >
-            Sign in
+            Reset password
           </button>
-          <div className="text-center">
-            <a className="hover:text-[#6D72F2]" href='/recovery'>Forgot password?</a>
-          </div>
         </form>
       </div>
     </main>
   );
-};
-
-export default LoginForm;
+}
