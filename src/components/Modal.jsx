@@ -1,6 +1,14 @@
 import React from 'react';
 
 const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen }) => {
+    const handleCostChange = (e) => {
+        const value = e.target.value;
+        
+        if (!isNaN(value) && /^-?\d*\.?\d*$/.test(value)) {
+            handleChange(e);
+        }
+    };
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-white p-8 max-w-md w-full rounded-lg shadow-lg">
@@ -8,7 +16,7 @@ const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen 
                 <form onSubmit={(e) => { e.preventDefault(); saveItem(); }}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Nombre
+                            Name
                         </label>
                         <input
                             name="Nombre"
@@ -21,20 +29,36 @@ const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen 
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Costo
+                            Cost
                         </label>
                         <input
                             name="Costo"
                             type="text"
                             value={currentItem.Costo}
-                            onChange={handleChange}
+                            onChange={handleCostChange}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Fecha Límite
+                            Currency
+                        </label>
+                        <select
+                            name="Moneda"
+                            value={currentItem.Moneda}
+                            onChange={handleChange}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required
+                        >
+                            <option value="">Select Currency</option>
+                            <option value="USD">USD</option>
+                            <option value="MXN">MXN</option>
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                            Limit Date
                         </label>
                         <input
                             name="Fecha_limite"
@@ -47,7 +71,7 @@ const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen 
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Tiempo de Entrega
+                            Delivery Date
                         </label>
                         <input
                             name="Tiempo_entrega"
@@ -60,7 +84,7 @@ const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen 
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Medio de Entrega
+                            Shipping method
                         </label>
                         <input
                             name="Medio_entrega"

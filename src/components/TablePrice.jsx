@@ -119,7 +119,7 @@ const TablePrice = () => {
             <div className="items-start justify-between md:flex">
                 <div className="max-w-lg">
                     <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                        Price Table
+                        Items Table
                     </h3>
                     <p className="text-gray-600 mt-2">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -140,8 +140,8 @@ const TablePrice = () => {
                         <tr>
                             <th className="py-3 px-6">Name</th>
                             <th className="py-3 px-6">Cost</th>
-                            <th className="py-3 px-6">Date Límite</th>
-                            <th className="py-3 px-6">Delivery date</th>
+                            <th className="py-3 px-6">Limit Date </th>
+                            <th className="py-3 px-6">Delivery Date</th>
                             <th className="py-3 px-6">Shipping method</th>
                             <th className="py-3 px-6"></th>
                         </tr>
