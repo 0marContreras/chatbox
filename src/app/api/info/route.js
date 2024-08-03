@@ -1,23 +1,29 @@
-"use server"
+"use server";
 import connectToDatabase from "@/lib/db";
 import additionalInfo from '@/models/additionalInfo';
 import { NextResponse } from "next/server";
 
-export async function GET(){
-    connectToDatabase()
-    const info = await additionalInfo.find();
-    console.log(info)
-    return NextResponse.json(info, { status: 200 });
+export async function GET() {
+    try {
+        await connectToDatabase(); // Asegurar que la conexión es asincrónica
+        const info = await additionalInfo.find();
+        console.log(info);
+        return NextResponse.json(info, { status: 200 });
+    } catch (e) {
+        console.error('Error al obtener los datos:', e);
+        return NextResponse.json({ error: "internal error" }, { status: 500 });
+    }
 }
 
-export async function PUT(req){
-    const {_id, newInfo} = await req.json();
-    connectToDatabase()
-    try{
-        const info = await additionalInfo.findByIdAndUpdate(_id, {$set: {"Additinal_info": newInfo}})
+export async function PUT(req) {
+    try {
+        const { _id, newInfo } = await req.json();
+        console.log(newInfo)
+        connectToDatabase();
+        const info = await additionalInfo.updateOne({_id: _id}, {$set: {Additional_info: newInfo}});
         return NextResponse.json(info, { status: 200 });
-    }catch(e){
-        return NextResponse.json({"error": "internal error"}, { status: 500 });
+    } catch (e) {
+        console.error('Error al actualizar los datos:', e);
+        return NextResponse.json({ error: "internal error" }, { status: 500 });
     }
-    
 }
