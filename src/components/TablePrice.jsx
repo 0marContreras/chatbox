@@ -9,6 +9,7 @@ const TablePrice = () => {
         _id: '',
         Nombre: '',
         Costo: '',
+        Moneda: '',
         Fecha_limite: '',
         Tiempo_entrega: '',
         Medio_entrega: ''
@@ -56,6 +57,14 @@ const TablePrice = () => {
     };
 
     const saveItem = async () => {
+        // Concatenar costo y moneda
+        const costoConMoneda = `${currentItem.Costo} ${currentItem.Moneda}`;
+
+        const updatedItem = {
+            ...currentItem,
+            Costo: costoConMoneda
+        };
+
         const url = isEditing ? `/api/items` : '/api/items';
         const method = isEditing ? 'PUT' : 'POST';
 
@@ -65,7 +74,7 @@ const TablePrice = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(currentItem),
+                body: JSON.stringify(updatedItem),
             });
 
             if (!response.ok) {
@@ -77,6 +86,7 @@ const TablePrice = () => {
                 _id: '',
                 Nombre: '',
                 Costo: '',
+                Moneda: '',
                 Fecha_limite: '',
                 Tiempo_entrega: '',
                 Medio_entrega: ''
@@ -106,6 +116,7 @@ const TablePrice = () => {
             _id: '',
             Nombre: '',
             Costo: '',
+            Moneda: '',
             Fecha_limite: '',
             Tiempo_entrega: '',
             Medio_entrega: ''

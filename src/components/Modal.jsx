@@ -116,4 +116,5 @@ const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen 
     );
 };
 
+
 export default Modal;
