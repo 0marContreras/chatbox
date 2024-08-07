@@ -107,10 +107,24 @@ const Chat = () => {
         >
           <div
             style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               marginBottom: '10px',
-              textAlign: 'right',
             }}
           >
+            <button
+              onClick={() => window.location.reload()}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '16px',
+                color: 'black'
+              }}
+            >
+              <i className="fas fa-sync-alt" style={{ color: 'black' }}></i>
+            </button>
             <button
               onClick={endChat}
               style={{
@@ -118,6 +132,7 @@ const Chat = () => {
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '16px',
+                color: 'black'
               }}
             >
               ✖

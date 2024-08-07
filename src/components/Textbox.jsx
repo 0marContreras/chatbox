@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 const Textbox = () => {
-  const [info, setInfo] = useState(null); // Inicializar como null o un objeto vacío
+  const [info, setInfo] = useState(null);
   const [value, setValue] = useState('');
   const [height, setHeight] = useState('100px');
 
@@ -16,7 +16,7 @@ const Textbox = () => {
         }
         const inf = await response.json();
         console.log(inf);
-        setInfo(inf[0]); // Asegurar que se toma el primer elemento del array si la respuesta es una lista
+        setInfo(inf[0]); 
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
@@ -33,7 +33,6 @@ const Textbox = () => {
   };
 
   const handleSubmit = async () => {
-    //console.log(value);
     if (!info) {
       console.error('Info no cargado');
       return;
@@ -52,24 +51,31 @@ const Textbox = () => {
       }
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
-      setValue(''); // Reiniciar el valor del textarea después de enviar los datos
+      setValue(''); 
     } catch (error) {
       console.error('Error al enviar los datos:', error);
     }
   };
 
   return (
-    <div className="resizable-textarea">
+    <div>
+      <div className="">
+        <div>
+          <textarea
+            value={value}
+            onChange={handleChange}
+            style={{
+              height:'300px',
+              width: '800px', 
+              border: '2px solid black', 
+              padding: '10px' 
+            }}
+            onInput={handleResize}
+          />
+        </div>
+      </div>      
       <div>
-        <textarea
-          value={value}
-          onChange={handleChange}
-          style={{ height }}
-          onInput={handleResize}
-        />
-      </div>
-      <div>
-        <button onClick={handleSubmit}>Enviar</button>
+        <button className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={handleSubmit}>Enviar</button>
       </div>
     </div>
   );

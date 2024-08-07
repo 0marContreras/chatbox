@@ -21,7 +21,7 @@ export default function Hero() {
               </a>
               <a className="text-white font-bold text-xl ml-2">ChatBox</a>
             </div>
-            <div className="hidden sm:block absolute top-0 right-0 p-4">
+            <div className="hidden sm:block absolute top-0 right-64 p-8">
               <Link href="/signin" legacyBehavior>
                 <a className="px-5 py-3 text-white text-bold duration-150 bg-[#B165BC] rounded-full hover:bg-indigo-500 active:bg-indigo-700 flex items-center">
                   Log In

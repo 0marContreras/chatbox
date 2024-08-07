@@ -44,7 +44,7 @@ export default function Dashboard() {
   return (
     <div>
       <Navbar />
-      <div className='mt-12 ml-40'> 
+      <div className='mt-12 ml-[300px]'> 
         <BackupButton/>
       </div>
        <div className='flex flex-col lg:flex-row flex-wrap justify-center items-center pb-12 pt-24 px-4 lg:px-0'>  
@@ -60,17 +60,17 @@ export default function Dashboard() {
         </div>
       </div>
       <div className='flex justify-around'>
-      <div className='h-[350px] pl-12 w-full lg:w-[400px] ' >
+      <div className='h-[500px] pl-12 w-full lg:w-[800px] ' >
             <BarChart />
       </div>
-      <div className='lg:w-[400px]'>
+      <div className='lg:w-[400px] overflow-auto h-96 '>
             <PieChart />
       </div>
       </div>
-      <div className='container mx-auto items-center px-4 lg:px-0'>
+      <div className='container mx-auto items-center px-4 lg:px-0 pb-8'>
           <h2 className='font-bold text-xl text-gray-800'>Information Context for the Bot</h2>
           <p className='text-gray-600 mb-8'>Write all general information that the bot need to know for help to the users</p>
-          <div className='container mx-auto items-center mb-12'>
+          <div className='container mx-auto items-center'>
             <Textbox />
           </div>
       </div>

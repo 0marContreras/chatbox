@@ -57,11 +57,12 @@ const TablePrice = () => {
     };
 
     const saveItem = async () => {
-        // Concatenar costo y moneda
+        
         const costoConMoneda = `${currentItem.Costo} ${currentItem.Moneda}`;
 
         const updatedItem = {
-            ...currentItem,
+            ...currentItem, 
+            Nombre: currentItem.Nombre.toLowerCase(),
             Costo: costoConMoneda
         };
 
@@ -161,7 +162,7 @@ const TablePrice = () => {
                         {
                             tableItems.map((item, idx) => (
                                 <tr key={idx}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.Nombre}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Nombre[0].toUpperCase() + item.Nombre.slice(1)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Costo}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Fecha_limite}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Tiempo_entrega}</td>
