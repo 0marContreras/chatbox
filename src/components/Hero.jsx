@@ -74,9 +74,7 @@ export default function Hero() {
               </span>
             </h1>
             <p className="text-gray-300 max-w-xl leading-relaxed mx-auto lg:ml-0">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum
+             Automated support for users powered with AI.
             </p>
           </div>
           <div className="flex-1 text-center mt-8 lg:mt-0 lg:ml-3">
@@ -99,10 +97,10 @@ export default function Hero() {
             </div>
             <div className="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
               <h3 className="text-indigo-600 font-semibold">
-                Professional services
+                Edit and review
               </h3>
               <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-                Build your SaaS solution with help from our experts
+                Manage the information and bot configurations through user interfaces
               </p>
               <p className="mt-3 text-gray-600">
                 Duis aute irure dolor in reprehenderit in voluptate velit esse
