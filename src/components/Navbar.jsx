@@ -33,7 +33,7 @@ export default function Navbar() {
           <a href="/">
             <img
               src="/Logo.png" 
-              width={80} 
+              width={100} 
               height={20}
               alt="logo"
             />

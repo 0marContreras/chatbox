@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        await connectToDatabase(); // Asegurar que la conexión es asincrónica
+        await connectToDatabase(); 
         const info = await additionalInfo.find();
         console.log(info);
         return NextResponse.json(info, { status: 200 });

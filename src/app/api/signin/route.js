@@ -19,11 +19,11 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
-    //Generamos el token 2fa
+    
     let token = await generateToken();
     await User.updateOne({email: user.email}, {$set: {twoFactorSecret: token}});
 
-    //Email del auth
+    
       const { data, error } = await resend.emails.send({
         from: 'Acme <onboarding@resend.dev>',
         to: [user.email],
