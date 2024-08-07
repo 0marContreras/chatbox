@@ -9,7 +9,9 @@ const settingSchema = new mongoose.Schema({
     Medio_entrega: {type: String},
     Lugar: {type: String},
     Item: {type: Boolean},
-    Comment: {type: Boolean}
+    Comment: {type: Boolean},
+    Contador: {type: Number},
+    Contador_fecha: {type: Number}
 });
 
 export default mongoose.models.settings || mongoose.model('settings', settingSchema);
