@@ -38,7 +38,7 @@ const Textbox = () => {
 
     try {
       const response = await fetch('/api/info', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },

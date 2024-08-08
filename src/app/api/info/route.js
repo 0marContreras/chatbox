@@ -15,7 +15,7 @@ export async function GET() {
     }
 }
 
-export async function PUT(req) {
+export async function POST(req) {
     try {
         const { _id, newInfo } = await req.json();
         console.log(newInfo)
