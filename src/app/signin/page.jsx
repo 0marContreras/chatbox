@@ -1,8 +1,24 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/signin');
+        if (response.status === 200) {
+          window.location.href = '/dashboard';
+        } 
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAuthStatus();
+  }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
