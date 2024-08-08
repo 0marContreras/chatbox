@@ -90,7 +90,7 @@ export default function Hero() {
           <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
             <div className="flex-1 sm:hidden lg:block">
               <img
-                src="/imagen.jfif"
+                src="/imagen.jpg"
                 className="md:max-w-lg sm:rounded-lg"
                 alt=""
               />
