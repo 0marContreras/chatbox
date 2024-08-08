@@ -19,7 +19,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
 
   const reconnect = () => {
-    const ws = new WebSocket("ws://localhost:8000/chatbox");
+    const ws = new WebSocket("wss://cbapi-v3wc.onrender.com/chatbox");
     setWebSocket(ws)
   }
 
@@ -47,7 +47,7 @@ const Chat = () => {
     setShowUserModal(false);
     setShowAlert(false);
 
-    const ws = new WebSocket("ws://localhost:8000/chatbox");
+    const ws = new WebSocket("wss://cbapi-v3wc.onrender.com/chatbox");
     ws.onmessage = function (event) {
       setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: event.data }]);
     };

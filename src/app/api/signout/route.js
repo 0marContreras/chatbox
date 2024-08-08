@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 export async function POST(req) {
   try {
     cookies().delete('loged');
+    cookies().delete('authenticated');
  
     return NextResponse.json({ signin: 'Success' }, { status: 200 });
 

@@ -25,7 +25,7 @@ export async function POST(req) {
 
     
       const { data, error } = await resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
+        from: 'Auth <auth@chatbox.website>',
         to: [user.email],
         subject: 'Chatbox Auth',
         react: EmailTemplate({ token: token }),

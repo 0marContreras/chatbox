@@ -21,7 +21,7 @@ export async function POST(req){
             cookieStore.set('recovering', user.email, { expires: Date.now() + fiveMinutes});
 
             const { data, error } = await resend.emails.send({
-                from: 'Acme <onboarding@resend.dev>',
+                from: 'Support <support@chatbox.website>',
                 to: [user.email],
                 subject: 'Chatbox Auth',
                 react: PasswordTemplate({ token: 99999}),
