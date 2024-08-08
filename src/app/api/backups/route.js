@@ -4,17 +4,17 @@ import { NextResponse } from "next/server";
 import { cookies } from 'next/headers';
 import connectToDatabase from "@/lib/db";
 import settings from '@/models/settings';
-import Review from "@/models/review.model";
+import review from "@/models/review.model";
 import additionalInfo from '@/models/additionalInfo';
 
 export async function GET(){
    
     try{
 
-        connectToDatabase();
+        await connectToDatabase();
         const backupSettings = await settings.find();
         const backupAdditionalInfo = await additionalInfo.find();
-        const backupReviews = await Review.find();
+        const backupReviews = await review.find();
 
         const backupTemplate = {
             "settings": backupSettings,
