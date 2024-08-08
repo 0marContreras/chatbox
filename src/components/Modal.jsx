@@ -1,6 +1,8 @@
 import React from 'react';
 
 const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen }) => {
+    const ammount = currentItem.Costo.split(" ");
+    currentItem.Costo = ammount[0];
     const handleCostChange = (e) => {
         const value = e.target.value;
         
@@ -34,7 +36,7 @@ const Modal = ({ isEditing, currentItem, handleChange, saveItem, setIsModalOpen 
                         <input
                             name="Costo"
                             type="text"
-                            value={currentItem.Costo}
+                            value={ammount[0]}
                             onChange={handleCostChange}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required

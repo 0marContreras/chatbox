@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, SubTitle } from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+ChartJS.register(ArcElement, Tooltip, Legend, SubTitle);
 
 const PieChart = () => {
   const [chartData, setChartData] = useState({
@@ -77,6 +79,23 @@ const PieChart = () => {
     responsive: true,
     plugins: {
       legend: false,
+      title: {
+        display: true,
+        text: 'Support frequency',
+        font: {
+          size: 20,
+        },
+      },
+       subtitle:{
+        display: true,
+        text: "Hover the mouse to review data",
+        font: {
+          size: 15,
+        },
+        padding: {
+          bottom: 30
+      }
+       }, 
       tooltip: {
         enabled: true,
       },

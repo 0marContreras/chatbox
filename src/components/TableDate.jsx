@@ -145,7 +145,7 @@ const DateTable = () => {
                         {
                             tableDate.map((item, idx) => (
                                 <tr key={idx}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.Nombre}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Nombre[0].toUpperCase() + item.Nombre.slice(1)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Fecha_limite}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Hora}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Lugar}</td>

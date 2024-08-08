@@ -8,7 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const BarChart = () => {
   const [chartData, setChartData] = useState({
-    labels: ['1', '2', '3', '4', '5'],
+    labels: ['1 star', '2 stars', '3 stars', '4 stars', '5 stars'],
     datasets: [
       {
         label: 'Número de calificaciones',
@@ -30,7 +30,10 @@ const BarChart = () => {
       },
       title: {
         display: true,
-        text: 'Distribución de Calificaciones',
+        text: 'Review disposition',
+        font: {
+          size: 20,
+        },
       },
     },
     scales: {
@@ -53,10 +56,10 @@ const BarChart = () => {
         }
 
         setChartData({
-          labels: ['1', '2', '3', '4', '5'],
+          labels: ['1 star', '2 stars', '3 stars', '4 stars', '5 stars'],
           datasets: [
             {
-              label: 'Número de calificaciones',
+              label: 'Review ammount',
               backgroundColor: 'rgba(75,192,192,0.4)',
               borderColor: 'rgba(75,192,192,1)',
               borderWidth: 1,
