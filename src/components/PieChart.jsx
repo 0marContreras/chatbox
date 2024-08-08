@@ -8,7 +8,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = () => {
   const [chartData, setChartData] = useState({
-    labels: [],
+    
     datasets: [
       {
         label: 'Contador',
@@ -76,9 +76,7 @@ const PieChart = () => {
   const options = {
     responsive: true,
     plugins: {
-      legend: {
-        position: 'top',
-      },
+      legend: false,
       tooltip: {
         enabled: true,
       },
