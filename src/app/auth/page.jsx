@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Invalid from '@/components/Invalid';
 
-export default () => {
+export default function Auth() {
   const [token, setToken] = useState('');
   const [isValid, setIsValid] = useState(null);
   const [error, setError] = useState(null);
@@ -111,3 +111,5 @@ export default () => {
     </main>
   );
 };
+
+
