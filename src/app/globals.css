@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.resizable-textarea {
+    width: 80%; 
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none; 
+    overflow: hidden; 
+    min-height: 200px; 
+    box-sizing: border-box;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .fade-in-out {
+    opacity: 0;
+    animation: fade-in-out 2s forwards;
+  }
+  
+  @keyframes fade-in-out {
+    0% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+  }
