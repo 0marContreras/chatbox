@@ -49,7 +49,7 @@ const Textbox = () => {
       }
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
-      fetchInfo();
+      await fetchInfo();
 
       // Mostrar la alerta
       setAlertVisible(true);
