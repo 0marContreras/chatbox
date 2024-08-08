@@ -73,7 +73,7 @@ export default function Hero() {
                 A Chatbot MVP
               </span>
             </h1>
-            <p className="text-gray-300 max-w-xl leading-relaxed mx-auto lg:ml-0">
+            <p className="text-gray-300 text-xl max-w-xl leading-relaxed mx-auto lg:ml-0">
              Automated support for users powered with AI.
             </p>
           </div>
@@ -96,37 +96,21 @@ export default function Hero() {
               />
             </div>
             <div className="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
-              <h3 className="text-indigo-600 font-semibold">
-                Edit and review
-              </h3>
               <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
                 Manage the information and bot configurations through user interfaces
               </p>
               <p className="mt-3 text-gray-600">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum, sed ut perspiciatis unde omnis iste
-                natus error sit voluptatem accusantium doloremque laudantium
+                  This MVP is meant to be a contemporary customer support solution in companies, 
+                  businesses, entrepreneurships, or even institutions. By using the latest technologies 
+                  like large language models, the development project seeks to further innovative 
+                  features to fit in with a user interface that makes working easier and training of AI simpler. 
+                  This will augment the efficiency and effectiveness of a customer support team by shortening turnaround 
+                  time with almost pinpoint responses. It also combines robust analytics and reporting tools, 
+                  which tap into interaction details of customers, to provide an organization with valuable insights 
+                  into how service quality can be continuously improved.
+
               </p>
-              <a
-                href="#"
-                className="inline-flex gap-x-1 items-center text-indigo-600 hover:text-indigo-500 duration-150 font-medium"
-              >
-                Learn more
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </a>
+
             </div>
           </div>
         </div>

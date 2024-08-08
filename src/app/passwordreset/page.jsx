@@ -5,7 +5,7 @@ import IsDone from '@/components/IsDone';
 
 export default function PasswordReset() {
   const [isValid, setIsValid] = useState(null);
-  const [isDone, setIsDone] = useState(false); // Initialize with false
+  const [isDone, setIsDone] = useState(false); 
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {

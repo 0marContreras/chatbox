@@ -118,7 +118,7 @@ const DateTable = () => {
                         Event Table
                     </h3>
                     <p className="text-gray-600 mt-2">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        In this table you can manage all important events and dates related to the institution 
                     </p>
                 </div>
                 <div className="mt-3 md:mt-0">
