@@ -15,6 +15,13 @@ const Chat = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [prompt, setPrompt] = useState('');
   const [showReview, setShowReview] = useState(false);
+  const [webSocket, setWebSocket] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+  const reconnect = () => {
+    const ws = new WebSocket("ws://localhost:8000/chatbox");
+    setWebSocket(ws)
+  }
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -39,20 +46,16 @@ const Chat = () => {
     }
     setShowUserModal(false);
     setShowAlert(false);
+
+    const ws = new WebSocket("ws://localhost:8000/chatbox");
+    ws.onmessage = function (event) {
+      setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: event.data }]);
+    };
+    setWebSocket(ws);
   };
 
   const closeAlert = () => {
     setShowAlert(false);
-  };
-
-  const ws = new WebSocket("ws://localhost:8000/chatbox");
-
-  ws.onmessage = function (event) {
-    const chatbox = document.getElementById('chatbox');
-    const message = document.createElement('div');
-    message.textContent = event.data;
-    chatbox.appendChild(message);
-    chatbox.scrollTop = chatbox.scrollHeight;
   };
 
   const makePrompt = () => {
@@ -60,7 +63,8 @@ const Chat = () => {
     if (prompt.length === 0) {
       return;
     }
-    ws.send(prompt);
+    webSocket.send(prompt);
+    setMessages(prevMessages => [...prevMessages, { sender: 'user', text: prompt }]);
     setPrompt('');
     input.value = '';
   };
@@ -114,7 +118,7 @@ const Chat = () => {
             }}
           >
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => reconnect()}
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -140,6 +144,28 @@ const Chat = () => {
           </div>
           <div id='chatbox' style={{ flex: 1, overflowY: 'auto', marginBottom: '10px' }}>
             <p className="font-bold">Hello, {userName}. How can I help you?</p>
+            {messages.map((msg, index) => (
+              <div 
+                key={index} 
+                style={{ 
+                  display: 'flex', 
+                  justifyContent: msg.sender === 'bot' ? 'flex-start' : 'flex-end', 
+                  marginBottom: '10px' 
+                }}
+              >
+                <div 
+                  style={{ 
+                    backgroundColor: msg.sender === 'bot' ? '#e0e0e0' : '#B165BC', 
+                    color: msg.sender === 'bot' ? 'black' : 'white', 
+                    padding: '10px', 
+                    borderRadius: '10px', 
+                    maxWidth: '70%' 
+                  }}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            ))}
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <input
