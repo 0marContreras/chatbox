@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Neucha } from 'next/font/google';
 
 const settingSchema = new mongoose.Schema({
     Nombre: {type: String, required: true},
@@ -8,6 +9,8 @@ const settingSchema = new mongoose.Schema({
     Tiempo_entrega: {type: String },
     Medio_entrega: {type: String},
     Lugar: {type: String},
+    Contador: { type: Number, default: 0 },
+    Contador_fecha: { type: Number, default: 0 },
     Item: {type: Boolean},
     Comment: {type: Boolean}
 });
